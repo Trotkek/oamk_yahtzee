@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Text, View, Pressable, TextInput, Keyboard } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import styles from "../style/style";
+import Footer from './Footer';
 import {
   NBR_OF_DICES,
   NBR_OF_THROWS,
@@ -23,11 +24,11 @@ export default Home = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={styles.home}>
       <Text style={styles.header}> Mini-Yahtzee </Text>
       {!hasPlayerName ? (
         <>
-          <Text> For Scoreboard enter your name... </Text>
+          <Text color="#420"> Enter players name: </Text>
           <TextInput onChangeText={setPlayerName} autoFocus={true}>
             {" "}
           </TextInput>
@@ -40,7 +41,7 @@ export default Home = ({ navigation }) => {
         </>
       ) : (
         <>
-          <Text> Rules of the game here</Text>
+          <Text> Rules of the game</Text>
           <Text>
             THE GAME: Upper section of the classic Yahtzee dice game. You have{" "}
             {NBR_OF_DICES} dices and for the every dice you have {NBR_OF_THROWS}{" "}
@@ -66,6 +67,7 @@ export default Home = ({ navigation }) => {
           </Pressable>
         </>
       )}
+      <Footer/> 
     </View>
   );
 };

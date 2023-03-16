@@ -204,7 +204,7 @@ export default Gameboard = ({ route }) => {
       setStatus("You won, game over");
     } else if (counter === 0) {
       setStatus("Game over");
-      setNbrOfThrowsleft(0);
+      // setNbrOfThrowsleft(0);
       setEnd(true);
       if (bonusReached) {
         setBonusState("Congrats on reaching the bonus");
@@ -259,23 +259,43 @@ export default Gameboard = ({ route }) => {
   };
 
   //TODO: add the total points in here instead of the hardcoded ones
+  // const savePlayerPoints = async () => {
+  //   const playerPoints = {
+  //     name: playerName,
+  //     date: "3.3.3.2023",
+  //     time: "09:00",
+  //     points: 60,
+  //   };
+  //   try {
+  //     const newScore = [...scores, playerPoints];
+  //     const jsonValue = JSON.stringify(newScore);
+  //     await AsyncStorage.setItem(SCOREBOARD_KEY, jsonValue);
+  //   } catch (error) {
+  //     console.log("Write error: " + error.message);
+  //   }
+  // };
+
   const savePlayerPoints = async () => {
-    let currentDate = new Date();
-    let cDay = currentDate.getDate();
-    let cMonth = currentDate.getMonth() + 1;
-    let cYear = currentDate.getFullYear();
+    const currentDate = new Date();
     const playerPoints = {
       name: playerName,
-      date: cDay + "/" + cMonth + "/" + cYear,
-      time: currentDate.getHours() + ":" + currentDate.getMinutes(),
+      date: `${currentDate.getDate()}/${
+        currentDate.getMonth() + 1
+      }/${currentDate.getFullYear()}`,
+      time: `${currentDate.getHours()}:${currentDate.getMinutes()}`,
       points: sum,
     };
     try {
-      const newScore = [...scores, playerPoints];
+      const newScore = [...scores, playerPoints]
+        .sort((a, b) => b.points - a.points)
+        .slice(0, 5);
+      setScores(newScore);
+      console.log(newScore);
       const jsonValue = JSON.stringify(newScore);
+
       await AsyncStorage.setItem(SCOREBOARD_KEY, jsonValue);
     } catch (error) {
-      console.log("Write error: " + error.message);
+      console.log(error.message);
     }
   };
 
